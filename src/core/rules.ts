@@ -42,7 +42,10 @@ export function scoreMene(balls: Ball[], cochonnet: Ball): MeneScore | null {
     d => d.team === scoringTeam && d.distance < threshold
   ).length;
 
-  return { scoringTeam, points: Math.max(1, points), distances };
+  // Tied closest balls: no team scores, mène is null
+  if (points === 0) return null;
+
+  return { scoringTeam, points, distances };
 }
 
 export function determineNextThrower(

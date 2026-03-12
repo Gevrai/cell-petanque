@@ -30,6 +30,7 @@ import {
   resizeCanvas,
   render,
   COURT_WIDTH,
+  COURT_HEIGHT,
   THROW_LINE_Y,
   COURT_BOUNDS,
   Renderer,
@@ -87,6 +88,8 @@ export class Game {
     this.state.config = config;
     this.state.scores = [0, 0];
     this.state.currentMene = 1;
+    this.state.meneScorer = null;
+    this.state.menePoints = 0;
     this.state.phase = 'GAME_CONFIG';
 
     // Set up ball designs
@@ -116,9 +119,9 @@ export class Game {
       this.state.config.ballsPerPlayer,
       this.state.config.ballsPerPlayer,
     ];
-    this.state.currentTeam = 0;
+    this.state.currentTeam = (this.state.meneScorer ?? 0) as 0 | 1;
 
-    resetCamera(this.renderer.camera, COURT_WIDTH, this.renderer.canvasHeight / this.getBaseZoom());
+    resetCamera(this.renderer.camera, COURT_WIDTH, COURT_HEIGHT, this.getBaseZoom());
     this.updateHUD();
     this.hud.show();
 
@@ -174,7 +177,7 @@ export class Game {
       }
 
       // Zoom back
-      resetCamera(this.renderer.camera, COURT_WIDTH, this.renderer.canvasHeight / this.getBaseZoom());
+      resetCamera(this.renderer.camera, COURT_WIDTH, COURT_HEIGHT, this.getBaseZoom());
 
       setTimeout(() => {
         transition(this.state, 'COCHONNET_PLACED');
@@ -263,7 +266,7 @@ export class Game {
       clearInterval(followInterval);
 
       // Zoom back
-      resetCamera(this.renderer.camera, COURT_WIDTH, this.renderer.canvasHeight / this.getBaseZoom());
+      resetCamera(this.renderer.camera, COURT_WIDTH, COURT_HEIGHT, this.getBaseZoom());
 
       setTimeout(() => {
         this.startTurn();
