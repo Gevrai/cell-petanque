@@ -85,7 +85,11 @@ export function determineNextThrower(
 
   // If both have thrown, the team further away throws
   if (closestByTeam[0] !== undefined && closestByTeam[1] !== undefined) {
-    const furtherTeam: 0 | 1 = closestByTeam[0] > closestByTeam[1] ? 0 : 1;
+    // Tied distance: lastThrower failed to take the point, so they keep throwing
+    const furtherTeam: 0 | 1 =
+      closestByTeam[0] === closestByTeam[1]
+        ? lastThrower
+        : closestByTeam[0] > closestByTeam[1] ? 0 : 1;
 
     if (ballsRemaining[furtherTeam] > 0) {
       return { currentTeam: furtherTeam, reason: 'Further from cochonnet' };
