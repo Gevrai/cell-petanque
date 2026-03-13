@@ -213,7 +213,7 @@ function computeFlickThrow(
   const dt = (recent.time - older.time) / 1000;
   if (dt <= 0) return null;
 
-  const delta = vec2Sub(older.pos, recent.pos); // inverted for throw direction
+  const delta = vec2Sub(recent.pos, older.pos); // flick direction matches gesture
   const speed = vec2Length(delta) / dt * FLICK_SCALE;
   const clampedSpeed = Math.min(speed, MAX_POWER);
   const dir = vec2Normalize(delta);

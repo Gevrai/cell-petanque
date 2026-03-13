@@ -33,8 +33,8 @@ export function setCameraTarget(camera: Camera, x: number, y: number, zoom: numb
   camera.transitioning = true;
 }
 
-export function resetCamera(camera: Camera, courtWidth: number, courtHeight: number): void {
-  setCameraTarget(camera, courtWidth / 2, courtHeight / 2, 1);
+export function resetCamera(camera: Camera, courtWidth: number, courtHeight: number, baseZoom: number): void {
+  setCameraTarget(camera, courtWidth / 2, courtHeight / 2, baseZoom);
 }
 
 export function updateCamera(camera: Camera): void {

@@ -20,6 +20,16 @@ const COURT_BORDER = '#8b6914';
 const LINE_COLOR = 'rgba(255,255,255,0.5)';
 const TERRAIN_GRAIN_COLOR = 'rgba(0,0,0,0.03)';
 
+// Pre-computed grain positions to avoid per-frame randomness (shimmer)
+const GRAIN_COUNT = 200;
+const grainPositions: { x: number; y: number }[] = [];
+for (let i = 0; i < GRAIN_COUNT; i++) {
+  grainPositions.push({
+    x: COURT_BOUNDS.x + Math.random() * (COURT_WIDTH - 40),
+    y: COURT_BOUNDS.y + Math.random() * (COURT_HEIGHT - 40),
+  });
+}
+
 export interface Renderer {
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
@@ -119,12 +129,10 @@ function drawCourt(ctx: CanvasRenderingContext2D): void {
   ctx.fillStyle = COURT_COLOR;
   ctx.fillRect(COURT_BOUNDS.x, COURT_BOUNDS.y, COURT_BOUNDS.width, COURT_BOUNDS.height);
 
-  // Terrain grain texture
+  // Terrain grain texture (pre-computed positions)
   ctx.fillStyle = TERRAIN_GRAIN_COLOR;
-  for (let i = 0; i < 200; i++) {
-    const gx = COURT_BOUNDS.x + Math.random() * COURT_BOUNDS.width;
-    const gy = COURT_BOUNDS.y + Math.random() * COURT_BOUNDS.height;
-    ctx.fillRect(gx, gy, 2, 2);
+  for (const g of grainPositions) {
+    ctx.fillRect(g.x, g.y, 2, 2);
   }
 
   // Border
